@@ -1,0 +1,54 @@
+{% load static %}
+    <html lang="en" dir="ltr">
+    <head>
+      <link rel="stylesheet" type="text/css" href="{% static 'accounts/button.css' %}">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <title>Dating</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <!-- {% block head %} -->
+    <!-- <title>Base</title> -->
+    <!-- {% endblock %} -->
+    
+    </head>
+    <body>
+      
+
+      <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    
+     <div id="navbar" class="navbar-collapse collapse">
+     {% if user.is_authenticated %}
+    <ul class="col text-center">
+       <button type="button" class="btn btn-link"><a href="/account"><h3>Home</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/account/profile"><h3>View Profile</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/account/recommendation"><h3>Recommendation</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/chatstart"><h3>Chat</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/editprofile/"><h3>Edit Profile</h3></a></button>
+	   <button type="button" class="btn btn-link"><a href="/account/change_password"><h3>Change Password</h3></a></button>
+	  <button type="button" class="btn btn-link"><a href="/account/logout"><h3>Log Out</h3></a></button>
+      </ul>
+
+      {% else %}
+
+      <ul class="col text-center">
+			<button type="button" class="btn btn-link"><a href="/account"><h3>Home</h3></a></button>
+          <button type="button" class="btn btn-link"><a href="/login"><h3>Login</h3></a></button>
+          <button type="button" class="btn btn-link"><a href="/signup"><h3>Register</h3></a></button>
+          <button type="button" class="btn btn-link"><a href="/account/reset-password"><h3>Reset Password</h3></a></button>
+      </ul>
+
+	  {% endif %} 
+
+      </div>
+  </nav>
+  <br>
+      {% block body %}
+      <h1>Base</h1>
+      {% endblock %}
+    </body>
+  </html>

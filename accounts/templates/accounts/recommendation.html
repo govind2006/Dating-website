@@ -1,0 +1,199 @@
+{% extends "base_generic.html" %}
+{% load static %}
+{% block content %}
+
+   <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="width: 100%; position: fixed;z-index: 1;">
+    
+     <div id="navbar" class="navbar-collapse collapse">
+     {% if user.is_authenticated %}
+    <ul class="col text-center">
+       <button type="button" class="btn btn-link"><a href="/account"><h3>Home</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/account/profile"><h3>View Profile</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/account/recommendation"><h3>Recommendation</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/chatstart"><h3>Chat</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/editprofile/"><h3>Edit Profile</h3></a></button>
+       <button type="button" class="btn btn-link"><a href="/account/change_password"><h3>Change Password</h3></a></button>
+      <button type="button" class="btn btn-link"><a href="/account/logout"><h3>Log Out</h3></a></button>
+      </ul>
+
+      {% else %}
+
+      <ul class="col text-center">
+            <button type="button" class="btn btn-link"><a href="/account"><h3>Home</h3></a></button>
+          <button type="button" class="btn btn-link"><a href="/login"><h3>Login</h3></a></button>
+          <button type="button" class="btn btn-link"><a href="/signup"><h3>Register</h3></a></button>
+          <button type="button" class="btn btn-link"><a href="/account/reset-password"><h3>Reset Password</h3></a></button>
+      </ul>
+
+      {% endif %}
+
+      </div>
+  </nav>
+<br><br><br>
+
+{% for i in dic %}
+  <div class="container">
+    <div class="main">
+      <div class="view view-fourth">
+        {% if i.img %}
+            <img width="300px" height="250px" src="{{i.img.url}}" />
+         {% else %}
+             <img width="350px" height="250px" src="{% static 'temp.webp' %}" />
+         {% endif %}
+        <div class="mask">
+          <h2>Name: {{i.name}}</h2>
+          {% if i.age %}
+          
+          <h6>Age: {{i.age}}</h6>
+          <h6>Gender: {{i.gender}}</h6>
+          <h6>Height: {{i.height}}</h6>
+          <h6>Religion: {{i.religion}}</h6>
+          <h6>Education: {{i.education}}</h6>
+          <h6>City: {{i.city}}</h6>
+          <h6>Country: {{i.country}}</h6>
+
+          {% endif %}
+        </div>
+      </div>            
+    </div>
+  </div> 
+ {% endfor %}
+<style>
+ 
+.view {
+   width: 350px;
+   height: 250px;
+   margin: 10px;
+   float: left;
+   border: 10px solid #fff;
+   overflow: hidden;
+   position: relative;
+   text-align: center;
+   -webkit-box-shadow: 1px 1px 2px #e6e6e6;
+   -moz-box-shadow: 1px 1px 2px #e6e6e6;
+   box-shadow: 1px 1px 2px #e6e6e6;
+   cursor: default;
+}
+.view .mask,.view .content {
+   width: 350px;
+   height: 250px;
+   position: absolute;
+   overflow: hidden;
+   top: 0;
+   left: 0;
+}
+.view img {
+   display: block;
+/*   position: relative;*/
+}
+.view h2 {
+   text-transform: uppercase;
+   color: #fff;
+   text-align: center;
+   position: relative;
+   font-size: 17px;
+   padding: 2px;
+   background: rgba(0, 0, 0, 0.8);
+/*   margin: 20px 0 0 0;*/
+}
+
+.view h6 {
+   font-family: Georgia, serif;
+   font-style: italic;
+   font-size: 16px;
+   position: relative;
+   color: #fff;
+/*   padding: 10px 20px 20px;*/
+   text-align: center;
+}
+
+.view-fourth img {
+   -webkit-transition: all 0.4s ease-in-out 0.2s;
+   -moz-transition: all 0.4s ease-in-out 0.2s;
+   -o-transition: all 0.4s ease-in-out 0.2s;
+   -ms-transition: all 0.4s ease-in-out 0.2s;
+   transition: all 0.4s ease-in-out 0.2s;
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   filter: alpha(opacity=100);
+   opacity: 1;
+}
+.view-fourth .mask {
+   background-color: rgba(0,0,0,0.8);
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+   filter: alpha(opacity=0);
+   opacity: 0;
+   -webkit-transform: scale(0) rotate(-180deg);
+   -moz-transform: scale(0) rotate(-180deg);
+   -o-transform: scale(0) rotate(-180deg);
+   -ms-transform: scale(0) rotate(-180deg);
+   transform: scale(0) rotate(-180deg);
+   -webkit-transition: all 0.4s ease-in;
+   -moz-transition: all 0.4s ease-in;
+   -o-transition: all 0.4s ease-in;
+   -ms-transition: all 0.4s ease-in;
+   transition: all 0.4s ease-in;
+   -webkit-border-radius: 0px;
+   -moz-border-radius: 0px;
+   border-radius: 0px;
+}
+
+.view-fourth:hover .mask {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   filter: alpha(opacity=100);
+   opacity: 1;
+   -webkit-transform: scale(1) rotate(0deg);
+   -moz-transform: scale(1) rotate(0deg);
+   -o-transform: scale(1) rotate(0deg);
+   -ms-transform: scale(1) rotate(0deg);
+   transform: scale(1) rotate(0deg);
+   -webkit-transition-delay: 0.2s;
+   -moz-transition-delay: 0.2s;
+   -o-transition-delay: 0.2s;
+   -ms-transition-delay: 0.2s;
+   transition-delay: 0.2s;
+} 
+.view-fourth:hover img {
+   -webkit-transform: scale(0);
+   -moz-transform: scale(0);
+   -o-transform: scale(0);
+   -ms-transform: scale(0);
+   transform: scale(0);
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
+   filter: alpha(opacity=0);
+   opacity: 0;
+   -webkit-transition-delay: 0s;
+   -moz-transition-delay: 0s;
+   -o-transition-delay: 0s;
+   -ms-transition-delay: 0s;
+   transition-delay: 0s;
+}
+.view-fourth:hover h2,
+.view-fourth:hover p,
+.view-fourth:hover a.info {
+   -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
+   filter: alpha(opacity=100);
+   opacity: 1;
+   -webkit-transition-delay: 0.5s;
+   -moz-transition-delay: 0.5s;
+   -o-transition-delay: 0.5s;
+   -ms-transition-delay: 0.5s;
+   transition-delay: 0.5s;
+}
+
+.view a.info {
+   display: inline-block;
+   text-decoration: none;
+   padding: 7px 14px;
+   background: #000;
+   color: #fff;
+   text-transform: uppercase;
+   -webkit-box-shadow: 0 0 1px #000;
+   -moz-box-shadow: 0 0 1px #000;
+   box-shadow: 0 0 1px #000;
+}
+
+
+</style>
+
+{% endblock %}
+

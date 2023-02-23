@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/button.css' %}">
+</head>
+{% block body %}
+
+<div class="row" style="text-align:center;">
+        <div class="col-12">
+            <form method="post" enctype="multipart/form-data"> 
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-6">
+                        <label for="id_title">Title:</label> <input placeholder="Player First Name" type="text" name="title" maxlength="100" required="" id="id_title">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="file-upload">
+                        <div class="image-upload-wrap">
+                            <input class="file-upload-input" type='file' onchange="readURL(this);" name="image" accept="image/*" required="" id="id_image"/>
+                        </div>
+                    </div>
+                </div>
+                <button class="submit-btn btn btn-primary" type="submit">Submit</button> 
+            </form>
+        </div>
+    </div>
+{% endblock %}
+</html>

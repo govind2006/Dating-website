@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'accounts/button.css' %}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+{% block body %}
+
+<!-- {% if user.is_authenticated %}
+<div style="text-align:center;">
+ <button type="button"><a href="/account/load">Upload/edit your photo</a></button>
+<button type="button"><a href="/account/form">fill/edit your data</a></button>
+<button type="button"><a href="/account/interested">fill/edit your interest</a></button>
+</div>
+ {% endif %} -->
+
+<div style="text-align:center;">
+
+<h2>{{l}}</h2>
+
+</div>
+{% endblock %}
+</html>

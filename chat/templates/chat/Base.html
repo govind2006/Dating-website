@@ -1,0 +1,85 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{% static 'css/base_style.css' %}">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!--    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>-->
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    {% block head %}{% endblock %}
+
+    <title>Dating</title>
+</head>
+<body>
+    <div class="sidenav">
+        <div class="row">
+            <!-- <a href="/account"><div class="col"><h2 style="padding-left: 16px; display: block-content;">Home</h2></div></a> -->
+                <div class="dropdown">
+                    <button onclick="myFunction()" class="btn btn-success">Menu</button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <a href="/account"><h3>Home</h3></a>
+                        <a href="/search"><h3>Search friend</h3></a>
+                        <a href="/account/profile"><h3>View Profile</h3></a>
+                        <a href="/account/recommendation"><h3>Recommendation</h3></a>
+                        <a href="/editprofile/"><h3>Edit Profile</h3></a>
+                        <a href="/account/change_password"><h3>Change Password</h3></a>
+                        <a href="/account/logout"><h3>Log Out</h3></a>
+                    </div>
+                </div>
+        </div>
+        <hr class="mt-0 mb-4">
+        <div class="friends">
+            <ul class="list-group">
+                {% for friend in dic %}
+                    <a href="/chat/{{friend.username}}">
+                        <li class="list-group-item list-group-item-action">
+                            <div class="row">
+                                <div class="col">
+                                    {% if friend.img %}
+                                        <img src="{{friend.img.url}}" style="width: 50px; height: 50px;">
+                                    {% else %}
+                                    <img src="{% static 'images/user_image.jpg' %}" style="width: 50px; height: 50px;">
+                                    {% endif %}
+                                </div>
+                                <div class="col">
+                                    <div class="row"><p>{{friend.name}}</p></div>
+                                </div>
+                            </div>
+                        </li>
+                    </a>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="main">
+        {% block content %}
+        <div style="margin-top: 40vh; text-align: center">
+            <h2>Select a chat & start messaging!</h2>
+            <a href="/search"><h3>Search friend</h3></a>
+        </div>
+        {% endblock %}
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+
+    <script>
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+    </script>
+
+</body>
+</html>
