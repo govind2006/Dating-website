@@ -15,7 +15,7 @@ religion_choices = (
 )
 
 gender_choices = (
-    ('Other','Other'),
+    ('Other','Other(Both)'),
     ('Male','Male'),
     ('Female','Female'),
 )
@@ -42,10 +42,10 @@ class Show(models.Model):
 
 class Preference_show(models.Model):
     username = models.CharField('Username', max_length=150,primary_key=True)
-    min_age = models.FloatField("Min age",default= None, null=True, blank=True)
-    max_age = models.FloatField("Max age",default= None, null=True, blank=True)
     min_height = models.FloatField("Min height",default= None, null=True, blank=True)
     max_height = models.FloatField("Max height",default= None, null=True, blank=True)
+    min_age = models.FloatField("Min age",default= None, null=True, blank=True)
+    max_age = models.FloatField("Max age",default= None, null=True, blank=True)
     # age_range  = models.CharField('age_range',max_length=7,blank=True)
     # height_range = models.CharField('height_range',max_length=10,blank=True)
     gender = models.CharField('gender',max_length=6,choices=gender_choices, default='NA')

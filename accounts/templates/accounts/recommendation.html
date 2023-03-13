@@ -1,8 +1,8 @@
 {% extends "base_generic.html" %}
 {% load static %}
 {% block content %}
-
-   <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="width: 100%; position: fixed;z-index: 1;">
+<!-- style="width: 100%; position: fixed;z-index: 1;" -->
+   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     
      <div id="navbar" class="navbar-collapse collapse">
      {% if user.is_authenticated %}
@@ -29,8 +29,7 @@
 
       </div>
   </nav>
-<br><br><br>
-
+  
 {% for i in dic %}
   <div class="container">
     <div class="main">
@@ -43,7 +42,6 @@
         <div class="mask">
           <h2>Name: {{i.name}}</h2>
           {% if i.age %}
-          
           <h6>Age: {{i.age}}</h6>
           <h6>Gender: {{i.gender}}</h6>
           <h6>Height: {{i.height}}</h6>
@@ -51,8 +49,10 @@
           <h6>Education: {{i.education}}</h6>
           <h6>City: {{i.city}}</h6>
           <h6>Country: {{i.country}}</h6>
-
           {% endif %}
+          <button type="button" class="btn btn-outline-success">
+            <a href="/addfriend/{{i.username}}">Add Friend</a>
+         </button>
         </div>
       </div>            
     </div>
@@ -62,7 +62,7 @@
  
 .view {
    width: 350px;
-   height: 250px;
+   height: 270px;
    margin: 10px;
    float: left;
    border: 10px solid #fff;
@@ -76,7 +76,7 @@
 }
 .view .mask,.view .content {
    width: 350px;
-   height: 250px;
+   height: 270px;
    position: absolute;
    overflow: hidden;
    top: 0;
@@ -191,9 +191,5 @@
    -moz-box-shadow: 0 0 1px #000;
    box-shadow: 0 0 1px #000;
 }
-
-
 </style>
-
 {% endblock %}
-

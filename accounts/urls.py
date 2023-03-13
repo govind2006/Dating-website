@@ -24,7 +24,9 @@ urlpatterns = [
     path('load',views.index,name="form"),
     path('form',views.my_form,name="form"),
     path('interested',views.preference_form,name="interested"),
-    path('recommendation',views.show,name="interested"),
+    
+    path('recommendation',views.falseRecommendation,name="falseRecommendation"),
+    path('showrecommendation',views.showRecommendation,name="showRecommendation"),
 
     path('login',LoginView.as_view(template_name='accounts/login.html'), name="login"),
     path('logout',LogoutView.as_view(template_name='accounts/logout.html'), name="logout"),

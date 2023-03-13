@@ -35,7 +35,6 @@ def EditProfile(request):
         form = EditProfileForm(instance=request.user)
     return render(request, "registration/signup.html", {"form": form})
 
-
 def SignUp(request):
     message = []
     if request.method == "POST":
@@ -63,7 +62,7 @@ def SignUp(request):
                 x = User.objects.get(username=username)
                 x.first_name = name
                 x.save()
-                return redirect("/")
+                return redirect("/login")
     else:
         form = SignUpForm()
     return render(request, "registration/signup.html", {"form": form, "heading": "Sign Up", "message": message})

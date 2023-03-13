@@ -2,37 +2,6 @@
 {% load static %}
 <html lang="en">
 <head>
-<!--    <link href="{% static 'css/home_style_logged_out.css' %}" rel="stylesheet" type="text/css">-->
-    <style>
-        body{
-            background-image: url("{% static 'images/TodoBG.png' %}");
-            background-position: center;
-            background-size: cover;
-            height: 750px;
-            background-repeat: no-repeat
-        }
-
-        .navbar{
-            background-color: #92def7;
-            overflow: hidden;
-            float: left;
-            width: 100%;
-            text-align: center;
-            text-decoration: none;
-            font-size: 32px;
-            padding: 8px 8px;
-        }
-
-        .navbar a:hover{
-            text-decoration: none;
-        }
-
-        .navbar-right a{
-            margin-left: 16px;
-        }
-
-
-    </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <meta charset="utf-8">
@@ -40,12 +9,7 @@
     <title>Dating</title>
 </head>
 <body>
-
-    <div>
-        <!-- <a href="/">PyChat</a> -->
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    
-            <!-- <div id="navbar" class="navbar-collapse collapse"> -->
             {% if user.is_authenticated %}
            <ul class="col text-center">
               <button type="button" class="btn btn-link"><a href="/account"><h3>Home</h3></a></button>
@@ -55,27 +19,23 @@
               <button type="button" class="btn btn-link"><a href="/account/change_password"><h3>Change Password</h3></a></button>
              <button type="button" class="btn btn-link"><a href="/account/logout"><h3>Log Out</h3></a></button>
              </ul>
-       
              {% else %}
-       
              <ul class="col text-center">
                    <button type="button" class="btn btn-link"><a href="/account"><h3>Home</h3></a></button>
                  <button type="button" class="btn btn-link"><a href="/login"><h3>Login</h3></a></button>
                  <button type="button" class="btn btn-link"><a href="/signup"><h3>Register</h3></a></button>
                  <button type="button" class="btn btn-link"><a href="/account/reset-password"><h3>Reset Password</h3></a></button>
              </ul>
-       
-             {% endif %} 
-       
-             <!-- </div> -->
-         </nav>
-
-
-        <!-- <div class="navbar-right">
-            <a href="/login" class="login_text">Login</a>
-            <a href="/signup" class="register text">Register</a>
-        </div> -->
+             {% endif %}
+        </nav>
+         
+    <div class="container" style="border:1px;text-align: center;">
+        <h2 style="font-family: Times New Roman, Times, serif;">Welcome to our Dating Website</h2>
+        <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_at8qlzeo.json"  background="transparent"  
+        speed="1" loop controls autoplay></lottie-player>       
     </div>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -85,5 +45,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
+            
 </body>
 </html>

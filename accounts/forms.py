@@ -14,13 +14,13 @@ class MyForm(forms.ModelForm):
   class Meta:
     model = Show
     fields = ["username", "age","height","Country","City","Distance","education","gender","religion"]
-    labels = {"Age":"age","height":"Height in inch","Country":"Country",
+    labels = {"Age":"age","height":"Height in feet","Country":"Country",
     "City":"City","Distance":"Distance","education":"Education","gender":"Gender","religion":"Religion"}
 
 class PreferenceForm(forms.ModelForm):
   class Meta:
     model = Preference_show
-    fields = ["username","min_age","max_age","min_height","max_height","gender","religion"]
+    fields = ["username","min_height","max_height","min_age","max_age","gender","religion"]
 
 
 class RegistrationForm(UserCreationForm):

@@ -97,20 +97,20 @@ def search(request):
     user_ls = list()
     if request.method == "POST":
         print("SEARCHING!!")
-        query = request.POST.get("search")
-        for user in users:
-            if query in user.name or query in user.username:
-                img = False
-                if(UploadedImage1.objects.filter(title=user.username)):
-                    im = UploadedImage1.objects.get(title=user.username)
-                    img =  im.image
-                user_ls.append(Person(user.username,user.name,img))
-        return render(request, "chat/search.html", {'users': user_ls, 'dic': dic })
+        query = request.POST.get("search").lower()
+        if(len(query)!=0):
+            query = " ".join(query.split())
+            for user in users:
+                a = " ".join((user.name).lower().split())
+                b = " ".join((user.username).lower().split())
+                if query==a or query==b:
+                    img = False
+                    if(UploadedImage1.objects.filter(title=user.username)):
+                        im = UploadedImage1.objects.get(title=user.username)
+                        img =  im.image
+                    user_ls.append(Person(user.username,user.name,img))
+            return render(request, "chat/search.html", {'users': user_ls, 'dic': dic })
 
-    try:
-        users = users[:10]
-    except:
-        users = users[:]
     for user in users:
         img = False
         if(UploadedImage1.objects.filter(title=user.username)):
@@ -137,7 +137,7 @@ def addFriend(request, name):
     ls = curr_user.friends_set.all()
     flag = 0
     for username in ls:
-        if username.friend == friend.id:
+        if username.friend == friend.id or name==request.user.username:
             flag = 1
             break
     if flag == 0:
@@ -145,6 +145,22 @@ def addFriend(request, name):
         curr_user.friends_set.create(friend=friend.id)
         friend.friends_set.create(friend=id)
     return redirect("/search")
+
+
+def removeFriend(request,name):
+    username = request.user.username
+    id = getUserId(username)
+    friend = UserProfile.objects.get(username=name)
+    curr_user = UserProfile.objects.get(id=id)
+    print(curr_user.name)
+    c1 = curr_user.friends_set.filter(friend=friend.id)
+    c2 = friend.friends_set.filter(friend=id)
+    # print(c1,c2)
+    c1.delete()
+    c2.delete()
+    print("Friend Removed!!")
+    return redirect("/search")
+
 
 def chat(request, username):
     """
