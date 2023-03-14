@@ -13,9 +13,9 @@ class UploadImageForm(forms.ModelForm):
 class MyForm(forms.ModelForm):
   class Meta:
     model = Show
-    fields = ["username", "age","height","Country","City","Distance","education","gender","religion"]
-    labels = {"Age":"age","height":"Height in feet","Country":"Country",
-    "City":"City","Distance":"Distance","education":"Education","gender":"Gender","religion":"Religion"}
+    fields = ["username", "age","height","Country","City","Distance","education","gender","religion","occuption"]
+    labels = {"Age":"age","height":"Height in feet","Country":"Country","City":"City",
+    "Distance":"Distance","education":"Education","gender":"Gender","religion":"Religion","occuption":"occuption"}
 
 class PreferenceForm(forms.ModelForm):
   class Meta:

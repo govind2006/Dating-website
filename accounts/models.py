@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 import uuid
+from accounts.occuption import occuption_choices
 
 religion_choices = (
     ('None','None'),
@@ -20,8 +21,17 @@ gender_choices = (
     ('Female','Female'),
 )
 
+education_choices = (
+    ('10th','10th'),
+    ('12th','12th'),
+    ('Diploma','Diploma'),
+    ('B.Tech','B.Tech'),
+    ('M.Tech','M.Tech'),
+    ('PHD','PHD'),
+    ('Post Doctorate','Post Doctorate'),
+)
 
-# Create your models here.
+
 class UploadedImage1(models.Model):
     title = models.CharField(primary_key=True, max_length=150, help_text='Enter an image title')
     image = models.ImageField(upload_to='images/')
@@ -36,9 +46,12 @@ class Show(models.Model):
     Country = models.CharField(max_length=120,blank=True)
     City = models.CharField(max_length=120,blank=True)
     Distance = models.FloatField(max_length=120)
-    education = models.CharField(max_length=120,blank=True)
+    education = models.CharField(max_length=120,choices=education_choices, default='NA')
     gender = models.CharField(max_length=6,choices=gender_choices, default='NA')
     religion = models.CharField(max_length=120, choices=religion_choices, default='NA')
+    occuption = models.CharField(max_length=120, choices=occuption_choices, default='NA') 
+    def __str__(self):
+        return self.username
 
 class Preference_show(models.Model):
     username = models.CharField('Username', max_length=150,primary_key=True)
@@ -51,27 +64,5 @@ class Preference_show(models.Model):
     gender = models.CharField('gender',max_length=6,choices=gender_choices, default='NA')
     religion = models.CharField(max_length=120, choices=religion_choices, default='NA')
 
-# Create your models here.
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,default='')
-    phone = models.IntegerField(default=0)
-
     def __str__(self):
-        return self.user.username
-#         return f"{self.user}"
-
-
-# class UserProfile(models.Model):
-
-#     name = models.CharField(max_length=25)
-#     email = models.EmailField(unique=True)
-#     username = models.CharField(max_length=20, unique=True)
-
-#     def __str__(self):
-#         return f"{self.name}"
-
-def create_profile(sender, **kwargs):
-    if kwargs['created']:
-        user_profile = UserProfile.objects.create(user=kwargs['instance'])
-
-post_save.connect(create_profile,sender=User)
+        return self.username

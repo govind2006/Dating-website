@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-
 from accounts.forms import (
     RegistrationForm,
     EditProfileForm
@@ -8,7 +7,6 @@ from accounts.forms import (
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -18,16 +16,13 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-
 from .models import *
 from .forms import *
 from django.core.files.storage import FileSystemStorage
 from .find_dist_btw_cities import *
-
 from geopy.geocoders import Nominatim
 from geopy import distance
 import math
-
 from chat.models import UserProfile, Friends, Messages
 
 class Person1:
@@ -379,9 +374,7 @@ def matchfunction(given):
                 gendermatch.append(i)
         store = gendermatch
     print("Two sided gender match = ",len(store))
-    count_result = countminsketch(store) # suppose someone gender is female and she also interseted in only female
-                                            # that's why we are finding count min after two-sided gender match
-
+     
     if given['interested_data']:
         c =given['intr_religion'].lower()
         if c!='na' and c!='none':
@@ -496,9 +489,11 @@ def matchfunction(given):
                     distancematch.append(i)
             store=distancematch
     print("Both sided Distance match = ",len(store))
+    count_result = countminsketch(store)
+    finalresult = []
     for i in count_result:
-        store.append(i)
-    return store
+        finalresult.append(i)
+    return count_result
 
 def countminsketch(given):
     dic = list()
