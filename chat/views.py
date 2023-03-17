@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from chat.serializers import MessageSerializer
-from accounts.views import profile
+from accounts.views import profile,errormessage
 from accounts.models import UploadedImage1
 
 class Person:
@@ -128,8 +128,10 @@ def addFriend(request, name):
     :param name:
     :return:
     """
-
+    
     username = request.user.username
+    if not username:
+        return errormessage(request,"User is not logged in")
     id = getUserId(username)
     friend = UserProfile.objects.get(username=name)
     curr_user = UserProfile.objects.get(id=id)

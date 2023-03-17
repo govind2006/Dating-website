@@ -25,6 +25,9 @@ from geopy import distance
 import math
 from chat.models import UserProfile, Friends, Messages
 
+def errormessage(request,l):
+    return render(request, 'accounts/showdata.html',{'l':l})
+
 class Person1:
   def __init__(self,username, name, img,age,height,gender,country,city,education,religion):
     self.username=username
@@ -97,7 +100,12 @@ def profile(request, pk=None):
         args['prsnl']=prsnl
     if(Preference_show.objects.filter(username=su)) :
         intr = Preference_show.objects.get(username=su)
-        args['intr']=intr    
+        args['intr']=intr
+        lang = (args['intr'].Language).values()
+        t = ""
+        for i in lang:
+            t = t + i['languages']+" "
+        args['languages'] = t
     return render(request, 'accounts/profile.html', args)
 
 
@@ -152,7 +160,6 @@ def PasswordResetCompleteView(request):
 
 # -------------------------------------------------------------
 
-
 # Upload your profile photo
 def index(request,pk=None):
     if pk:
@@ -160,35 +167,23 @@ def index(request,pk=None):
     else:
         user = request.user
     su = user.username
-    flag=False
-    if(UploadedImage1.objects.filter(title=su)):
-        image = UploadedImage1.objects.get(title=su)
-        flag=True
-
-    args={}
-    args['user']=user
-
     if request.method == 'POST':
-        if(flag):
-            image.delete()
         submitted_form = UploadImageForm(request.POST, request.FILES)
+        if submitted_form['title'].value()!=su:
+            l = "User not created yet or username is not correct"
+            return errormessage(request, l)
+        if(UploadedImage1.objects.filter(title=su)):
+            image = UploadedImage1.objects.get(title=su)
+            image.delete()            
+            
         if submitted_form.is_valid():
             submitted_form.save()
-            image = UploadedImage1.objects.get(title=su)
-            args['img']=image
-            if(Show.objects.filter(username=su)):
-                prsnl = Show.objects.get(username=su)
-                args['prsnl']=prsnl
-            if(Preference_show.objects.filter(username=su)):
-                intr = Preference_show.objects.get(username=su)
-                args['intr']=intr
-        return render(request, 'accounts/profile.html', args)
+        return profile(request)
 
     form = UploadImageForm()
     context = {
         'form': form,
         'su':su,
-        # 'images': UploadedImage1.objects.all
     }
     return render(request, 'index.html', context=context)
 
@@ -201,35 +196,23 @@ def my_form(request,pk=None):
         else:
             user = request.user
         su = user.username
-        flag = False
-        if(Show.objects.filter(username=su)):
-            val = Show.objects.get(username=su)
-            flag = True
         form = MyForm(request.POST,request.FILES)
-        if(flag):
+        if(Show.objects.filter(username=su) and form['username'].value()==su):
+            val = Show.objects.get(username=su)
             val.delete()
-        
-        args={}
-        args['user']=user
-        
-        if form.is_valid() and form['username'].value()==user.username:
+        if form.is_valid() and form['username'].value()==su:
             form.save()
-            prsnl = Show.objects.get(username=su)
-            args['prsnl']=prsnl
-            if(UploadedImage1.objects.filter(title=user.username)):
-                image = UploadedImage1.objects.get(title=user.username)
-                args['img']=image
-            if(Preference_show.objects.filter(username=su)):
-                intr = Preference_show.objects.get(username=su)
-                args['intr']=intr
-            print("Your form is submitted successfully...")
-            return render(request, 'accounts/profile.html', args)
+            print("Your preference is submitted successfully...")
+            return profile(request)
         else:
-            val.save()
-            print("User not created yet or username is not correct")
-            return render(request, 'accounts/profile.html',args)
+            l = "User not created yet or username is not correct"
+            return errormessage(request, l)
     else:
-        form = MyForm(instance=request.user)
+        if(Show.objects.filter(username=request.user.username)):
+            val = Show.objects.get(username=request.user.username)
+            form  = MyForm(instance=val)
+        else:
+            form = MyForm(instance=request.user)
         return render(request, 'accounts/form.html', {'form': form})
 
 
@@ -241,33 +224,23 @@ def preference_form(request,pk=None):
         else:
             user = request.user
         su=user.username
-        if(Preference_show.objects.filter(username=su)):
+        form = PreferenceForm(request.POST)
+        if(Preference_show.objects.filter(username=su) and form['username'].value()==su):
             val = Preference_show.objects.get(username=su)
             val.delete()
-
-        args={}
-        args['user']=user
-
-        form = PreferenceForm(request.POST)
-        if form.is_valid() and form['username'].value()==user.username:
+        if form.is_valid() and form['username'].value()==su:
             form.save()
-
-            if(UploadedImage1.objects.filter(title=su)):
-                image = UploadedImage1.objects.get(title=su)
-                args['img']=image
-            if(Show.objects.filter(username=su)):
-                prsnl = Show.objects.get(username=su)
-                args['prsnl']=prsnl
-            intr = Preference_show.objects.get(username=su)
-            args['intr']=intr
-
             print("Your preference is submitted successfully...")
-            return render(request, 'accounts/profile.html', args)
+            return profile(request)
         else:
-            print("User not created yet or username is not correct")
-            return render(request, 'accounts/profile.html',args)
+            l = "User not created yet or username is not correct"
+            return errormessage(request, l)
     else:
-        form = PreferenceForm(instance=request.user)
+        if(Preference_show.objects.filter(username=request.user.username)):
+            val = Preference_show.objects.get(username=request.user.username)
+            form  = PreferenceForm(instance=val)
+        else:
+            form = PreferenceForm(instance=request.user)
         return render(request, 'accounts/form.html', {'form': form})
 
 # Recommendation
@@ -275,11 +248,11 @@ def falseRecommendation(request):
     l = "Finding your best match..."
     return render(request,'accounts/waitrecommendation.html',{'l':l})
 
-def showRecommendation(request):
-    # if pk:
-    #     user = User.objects.get(pk=pk)
-    # else:
-    user = request.user
+def showRecommendation(request,pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
     su = user.username
     args={}
     args['username']=su

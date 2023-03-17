@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 import uuid
 from accounts.occuption import occuption_choices
+from accounts.languages import language_choices
+from multiselectfield import MultiSelectField
 
 religion_choices = (
     ('None','None'),
@@ -31,7 +33,6 @@ education_choices = (
     ('Post Doctorate','Post Doctorate'),
 )
 
-
 class UploadedImage1(models.Model):
     title = models.CharField(primary_key=True, max_length=150, help_text='Enter an image title')
     image = models.ImageField(upload_to='images/')
@@ -53,16 +54,22 @@ class Show(models.Model):
     def __str__(self):
         return self.username
 
+class alllang(models.Model):
+    languages = models.CharField(max_length=120, choices=language_choices, default='NA')
+
+    def __str__(self):
+        return self.languages
+
 class Preference_show(models.Model):
     username = models.CharField('Username', max_length=150,primary_key=True)
     min_height = models.FloatField("Min height",default= None, null=True, blank=True)
     max_height = models.FloatField("Max height",default= None, null=True, blank=True)
     min_age = models.FloatField("Min age",default= None, null=True, blank=True)
     max_age = models.FloatField("Max age",default= None, null=True, blank=True)
-    # age_range  = models.CharField('age_range',max_length=7,blank=True)
-    # height_range = models.CharField('height_range',max_length=10,blank=True)
     gender = models.CharField('gender',max_length=6,choices=gender_choices, default='NA')
     religion = models.CharField(max_length=120, choices=religion_choices, default='NA')
+    Language = models.ManyToManyField(alllang,max_length=120)
+    # Language = MultiSelectField(max_length=120, choices=language_choices, default='NA')
 
     def __str__(self):
         return self.username

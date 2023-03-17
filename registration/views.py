@@ -32,7 +32,11 @@ def EditProfile(request):
             return redirect("/")
 
     else:
-        form = EditProfileForm(instance=request.user)
+        if(UserProfile.objects.filter(username=request.user.username)):
+            val = UserProfile.objects.get(username=request.user.username)
+            form  = EditProfileForm(instance=val)
+        else:
+            form = EditProfileForm(instance=request.user)
     return render(request, "registration/signup.html", {"form": form})
 
 def SignUp(request):

@@ -20,7 +20,7 @@ class MyForm(forms.ModelForm):
 class PreferenceForm(forms.ModelForm):
   class Meta:
     model = Preference_show
-    fields = ["username","min_height","max_height","min_age","max_age","gender","religion"]
+    fields = ["username","min_height","max_height","min_age","max_age","gender","religion","Language"]
 
 
 class RegistrationForm(UserCreationForm):
