@@ -62,8 +62,8 @@ class alllang(models.Model):
 
 class Preference_show(models.Model):
     username = models.CharField('Username', max_length=150,primary_key=True)
-    min_height = models.FloatField("Min height",default= None, null=True, blank=True)
-    max_height = models.FloatField("Max height",default= None, null=True, blank=True)
+    min_height = models.CharField("Min height",max_length=120)
+    max_height = models.CharField("Max height",max_length=120)
     min_age = models.FloatField("Min age",default= None, null=True, blank=True)
     max_age = models.FloatField("Max age",default= None, null=True, blank=True)
     gender = models.CharField('gender',max_length=6,choices=gender_choices, default='NA')

@@ -411,28 +411,23 @@ def matchfunction(given):
     
     if given['interested_data']:
         x = given['min_height']
-        nx = heightcalculation(round(x - int(x),2))+int(x)*12
+        nx = heightcalculation(chartofloat(x))+int(float(x))*12
         heightmatch = []
         for i in store:
-            y = float(i.height)
-            ny = heightcalculation(round(y - int(y),2))+int(y)*12
+            y = i.height
+            ny = heightcalculation(chartofloat(y))+int(float(y))*12
             if ny>=nx:
                 heightmatch.append(i)
         store=heightmatch
     if given['interested_data']:
         x = given['max_height']
-        nx = heightcalculation(round(x - int(x),2))+int(x)*12
+        nx = heightcalculation(chartofloat(x))+int(float(x))*12
         heightmatch = []
         for i in store:
             y = i.height
-            valc ="0"
-            f = False
-            for j in y:
-                if(j=='.' or f==True):
-                    valc = valc + j
-                    f=True
-            y = float(y)
-            ny = heightcalculation(valc)+int(y)*12
+            valc = chartofloat(y)
+            y1 = float(y)
+            ny = heightcalculation(valc)+int(y1)*12
             if nx>=ny:
                 heightmatch.append(i)
         store=heightmatch
@@ -440,12 +435,7 @@ def matchfunction(given):
 
     if given['height']:
         hmatch = []
-        valc ="0"
-        f = False
-        for j in given['height']:
-            if(j=='.' or f==True):
-                valc = valc + j
-                f=True
+        valc = chartofloat(given['height'])
         x = float(given['height'])
         nx = heightcalculation(valc)+int(x)*12
         for i in store:
@@ -453,8 +443,8 @@ def matchfunction(given):
                 intrtwo = Preference_show.objects.get(username=i.username)
                 minh = intrtwo.min_height
                 maxh = intrtwo.max_height
-                nminh = heightcalculation(round(minh - int(minh),2))+int(minh)*12
-                nmaxh = heightcalculation(round(maxh - int(maxh),2))+int(maxh)*12
+                nminh = heightcalculation(chartofloat(minh))+int(float(minh))*12
+                nmaxh = heightcalculation(chartofloat(maxh))+int(float(maxh))*12
                 if(nx>=nminh and nmaxh>=nx):
                     hmatch.append(i)
             else:
@@ -526,6 +516,15 @@ def countminsketch(given):
         dic.append(Show.objects.get(username=idusername[i2]))
     return dic
 
+
+def chartofloat(g):
+    valc ="0"
+    f = False
+    for j in g:
+        if(j=='.' or f==True):
+            valc = valc + j
+            f=True
+    return valc
 
 def heightcalculation(p):
     k = str(p)
