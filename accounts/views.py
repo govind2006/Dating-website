@@ -103,8 +103,12 @@ def profile(request, pk=None):
         args['intr']=intr
         lang = (args['intr'].Language).values()
         t = ""
-        for i in lang:
-            t = t + i['languages']+" "
+        langsize = len(lang)
+        for j in range(0,langsize):
+            i = lang[j]
+            t = t + i['languages']
+            if(j!=langsize-1):
+                t = t + ", "
         args['languages'] = t
     return render(request, 'accounts/profile.html', args)
 
@@ -410,7 +414,7 @@ def matchfunction(given):
         nx = heightcalculation(round(x - int(x),2))+int(x)*12
         heightmatch = []
         for i in store:
-            y = i.height
+            y = float(i.height)
             ny = heightcalculation(round(y - int(y),2))+int(y)*12
             if ny>=nx:
                 heightmatch.append(i)
@@ -421,7 +425,14 @@ def matchfunction(given):
         heightmatch = []
         for i in store:
             y = i.height
-            ny = heightcalculation(round(y - int(y),2))+int(y)*12
+            valc ="0"
+            f = False
+            for j in y:
+                if(j=='.' or f==True):
+                    valc = valc + j
+                    f=True
+            y = float(y)
+            ny = heightcalculation(valc)+int(y)*12
             if nx>=ny:
                 heightmatch.append(i)
         store=heightmatch
@@ -429,8 +440,14 @@ def matchfunction(given):
 
     if given['height']:
         hmatch = []
-        x = given['height']
-        nx = heightcalculation(round(x - int(x),2))+int(x)*12
+        valc ="0"
+        f = False
+        for j in given['height']:
+            if(j=='.' or f==True):
+                valc = valc + j
+                f=True
+        x = float(given['height'])
+        nx = heightcalculation(valc)+int(x)*12
         for i in store:
             if(Preference_show.objects.filter(username=i.username)):
                 intrtwo = Preference_show.objects.get(username=i.username)
@@ -509,6 +526,7 @@ def countminsketch(given):
         dic.append(Show.objects.get(username=idusername[i2]))
     return dic
 
+
 def heightcalculation(p):
     k = str(p)
     if(k=="0.10"):
@@ -517,4 +535,4 @@ def heightcalculation(p):
         return 11
     if(k=="0.12"):
         return 12
-    return p*10
+    return float(p)*10

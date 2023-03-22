@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
  {% block body %}
-
 {% if user.is_authenticated %}
 <div style="text-align:center;">
  <button type="button"><a href="/account/load">Upload/edit your photo</a></button>
@@ -10,46 +7,48 @@
 <button type="button"><a href="/account/interested">fill/edit your interest</a></button>
 </div>
  {% endif %}
-
-<div class="row">
+<div class="container">
   
-  <div class="col-12 col-sm-6 col-md-3" >
-    <h3>Profile</h3>
-    <p>Username: {{ user }}</p>
-    <p>Name: {{ user.first_name }}</p>
-    <p>Email: {{ user.email }}</p>
-  </div>
-  
-   <div class="col-12 col-sm-6 col-md-3" >
-    {% if img.image %}
-    <h3>Your picture</h3>
-    <img style="width:200px;height:150px" class="img-thumbnail" src="{{img.image.url}}" alt="{{img.title}}"/>
-    {% endif %}
-  </div>
-  
-  <div class="col-12 col-sm-6 col-md-3" >
-    {% if prsnl.age %}<h3>Your Personal data</h3>
-    <p>Age: {{ prsnl.age}}</p>{% endif %}
-    {% if prsnl.height %}<p>Height: {{ prsnl.height}}</p>{% endif %}
-    {% if prsnl.gender %}<p>Gender: {{ prsnl.gender}}</p>{% endif %}
-    {% if prsnl.Country %}<p>Country: {{ prsnl.Country}}</p>{% endif %}
-    {% if prsnl.City %}<p>City: {{ prsnl.City}}</p>{% endif %}
-    {% if prsnl.education %}<p>Education: {{ prsnl.education}}</p>{% endif %}
-    {% if prsnl.religion %}<p>Religion: {{ prsnl.religion}}</p>{% endif %}
-    {% if prsnl.occuption %}<p>Occuption: {{ prsnl.occuption}}</p>{% endif %}
-    {% if prsnl.Distance %}<p>Max Distance from your city in KM: {{prsnl.Distance}}</p>{% endif %}
-  </div>
+  <div class="row">
+    
+    <div class="col-12 col-sm-6 col-md-3" >
+      <h3>Profile</h3>
+      <p>Username: {{ user }}</p>
+      <p>Name: {{ user.first_name }}</p>
+      <p>Email: {{ user.email }}</p>
+    </div>
+    
+    <div class="col-12 col-sm-6 col-md-3" >
+      {% if img.image %}
+      <h3>Your picture</h3>
+      <img style="width:200px;height:150px" class="img-thumbnail" src="{{img.image.url}}" alt="{{img.title}}"/>
+      {% endif %}
+    </div>
+    
+    <div class="col-12 col-sm-6 col-md-3" >
+      {% if prsnl.age %}<h3>Your Personal data</h3>
+      <p>Age: {{ prsnl.age}}</p>{% endif %}
+      {% if prsnl.height %}<p>Height: {{ prsnl.height}}</p>{% endif %}
+      {% if prsnl.gender %}<p>Gender: {{ prsnl.gender}}</p>{% endif %}
+      {% if prsnl.Country %}<p>Country: {{ prsnl.Country}}</p>{% endif %}
+      {% if prsnl.City %}<p>City: {{ prsnl.City}}</p>{% endif %}
+      {% if prsnl.education %}<p>Education: {{ prsnl.education}}</p>{% endif %}
+      {% if prsnl.religion %}<p>Religion: {{ prsnl.religion}}</p>{% endif %}
+      {% if prsnl.occuption %}<p>Occuption: {{ prsnl.occuption}}</p>{% endif %}
+      {% if prsnl.Distance %}<p>Max Distance from your city in KM: {{prsnl.Distance}}</p>{% endif %}
+    </div>
 
-  <div class="col-12 col-sm-6 col-md-3" >
-   {% if intr.gender %}<h3>Your Interest</h3>{% endif %}
-    {% if intr.min_age or intr.max_age %}<p>Age Range: {{ intr.min_age}} - {{ intr.max_age}}</p>{% endif %}
-    {% if intr.min_height or intr.max_height %}
-    <p>Height Range: {{ intr.min_height}} - {{ intr.max_height}}</p>{% endif %}
-    {% if intr.gender %}<p>Gender: {{ intr.gender}}</p>{% endif %}
-    {% if intr.religion %}<p>Religion: {{ intr.religion}}</p>{% endif %}
-    {% if languages %}<p>Languages: {{ languages}}</p>{% endif %}
-  </div>
+    <div class="col-12 col-sm-6 col-md-3" >
+    {% if intr.gender %}<h3>Your Interest</h3>{% endif %}
+      {% if intr.min_age or intr.max_age %}<p>Age Range: {{ intr.min_age}} - {{ intr.max_age}}</p>{% endif %}
+      {% if intr.min_height or intr.max_height %}
+      <p>Height Range: {{ intr.min_height}} - {{ intr.max_height}}</p>{% endif %}
+      {% if intr.gender %}<p>Gender: {{ intr.gender}}</p>{% endif %}
+      {% if intr.religion %}<p>Religion: {{ intr.religion}}</p>{% endif %}
+      {% if intr.Hobbies %}<p>Hobbies: {{ intr.Hobbies}}</p>{% endif %}
+      {% if languages %}<p>Languages: {{ languages}}</p>{% endif %}
+    </div>
 
+  </div>
 </div>
 {% endblock %}
-</html>

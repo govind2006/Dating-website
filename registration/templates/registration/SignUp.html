@@ -21,27 +21,28 @@
     </ul>
 </div>
      {% endif %} 
-     <div class="col-8" >
-    <div class="sign-up form" style="max-width: 600px;">
-        <!-- <h1 class="mt-2">{{heading}}</h1>
-        <hr class="mt-0 mb-4"> -->
+        <div class="col-8" >
+            <div class="sign-up form" style="max-width: 600px;">
+                <form method="post" class="form-group" style="max-width: 600px;">
+                    {% if not user.is_authenticated %}
+                    <h3>User Registration</h3>
+                    {% endif %}
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    {% if user.is_authenticated %}
+                        <button type="submit" class="btn btn-success">Edit Profile</button>
+                    {% else %}
+                    <li>Your password can’t be too similar to your other personal information.</li>
+                    <li> Your password must contain at least 8 characters.</li>
+                    <li> Your password can’t be a commonly used password.</li>
+                    <li> Your password can’t be entirely numeric.</li>
+                        <p>Already have an account?<a href="/login">Login here.</a> or 
+                        <a href="/account/reset-password">Reset Password</a> </p>
+                        <button type="submit" class="btn btn-success" >Sign Up</button>
+                    {% endif %}
 
-        <form method="post" class="form-group" style="max-width: 600px;">
-            {% if not user.is_authenticated %}
-            <h3>User Registration</h3>
-            {% endif %}
-            {% csrf_token %}
-            {{form|crispy}}
-            {% if user.is_authenticated %}
-                <button type="submit" class="btn btn-success">Edit Profile</button>
-            {% else %}
-                <p>Already have an account?<a href="/login">Login here.</a> or 
-                <a href="/account/reset-password">Reset Password</a> </p>
-                <button type="submit" class="btn btn-success" >Sign Up</button>
-            {% endif %}
-
-        </form>
-    </div>
-</div>
+                </form>
+            </div>
+        </div>
 {% endblock %}
 

@@ -43,7 +43,7 @@ class UploadedImage1(models.Model):
 class Show(models.Model):
     username = models.CharField( max_length=150,primary_key=True)
     age  = models.FloatField()
-    height = models.FloatField()
+    height = models.CharField(max_length=120)
     Country = models.CharField(max_length=120,blank=True)
     City = models.CharField(max_length=120,blank=True)
     Distance = models.FloatField(max_length=120)
@@ -68,6 +68,7 @@ class Preference_show(models.Model):
     max_age = models.FloatField("Max age",default= None, null=True, blank=True)
     gender = models.CharField('gender',max_length=6,choices=gender_choices, default='NA')
     religion = models.CharField(max_length=120, choices=religion_choices, default='NA')
+    Hobbies = models.CharField(max_length=120,blank=True)
     Language = models.ManyToManyField(alllang,max_length=120)
     # Language = MultiSelectField(max_length=120, choices=language_choices, default='NA')
 
