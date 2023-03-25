@@ -23,6 +23,7 @@ from .find_dist_btw_cities import *
 from geopy.geocoders import Nominatim
 from geopy import distance
 import math
+import random
 from chat.models import UserProfile, Friends, Messages
 
 def errormessage(request,l):
@@ -284,6 +285,7 @@ def showRecommendation(request,pk=None):
         args['max_height']=intr.max_height
         args['intr_gender']=intr.gender
         args['intr_religion']=intr.religion
+        args['Language']=intr.Language
      
     dic = list()
     if(args['interested_data'] or args['prsnl_data']):
@@ -453,6 +455,27 @@ def matchfunction(given):
         
     print("Two sided height match = ",len(store))
 
+    if given['Language']:
+        lang = given['Language'].values()
+        langcheck = set()
+        for i in lang:
+            langcheck.add(i['languages'])
+        langmatch = []
+        for i in store:
+            if(Preference_show.objects.filter(username=i.username)):
+                intr = Preference_show.objects.get(username=i.username)
+                lv = intr.Language.values()
+                for j in lv:
+                    if j['languages'] in langcheck:
+                        langmatch.append(i)
+                        break
+            else:
+                langmatch.append(i)
+        store = langmatch
+
+    print("Two sided language match = ",len(store))
+
+
     if given['City'] and given['Country'] and given['Distance']:
         distancematch = []
         c1 = given['City']+" "+given['Country']
@@ -469,15 +492,36 @@ def matchfunction(given):
                     distancematch.append(i)
             store=distancematch
     print("Both sided Distance match = ",len(store))
-    count_result = countminsketch(store)
-    finalresult = []
-    for i in count_result:
-        finalresult.append(i)
-    return count_result
+    total_len = len(store)
+    logn_groups = math.ceil(math.log(total_len,2))
+    if(logn_groups==0):
+        return store
+    eachgroup_user = math.ceil(total_len/logn_groups)
+    group_data = []
+    j,lg=0,0
+    result = []
+    for i in store:
+        group_data.append(i)
+        j =j +1
+        lg=lg+1
+        if(j==eachgroup_user or lg==total_len):
+            j=0
+            count_result = countminsketch(group_data)
+            group_data1 = []
+            group_data=group_data1
+            r1 = random.randint(0, 3)
+            a = r1%4
+            b = (r1+1)%4
+            for k in count_result:
+                if(j==a or j==b):
+                    result.append(k)
+                j=j+1
+            j=0
+    return result
 
 def countminsketch(given):
     dic = list()
-    rows, cols = (2, 13)
+    rows, cols = (4, 13)
     arr = [[0]*cols]*rows
     idusername = {}
     for i in given:
@@ -492,28 +536,58 @@ def countminsketch(given):
             num = str(i)
             fr = UserProfile.objects.get(id=int(num))
             friends.append(fr)
-        h1 = (3*int(id)+2)%13
-        h2 = (10*int(id))%13
+        int_id = int(id)
+        h1 = (3*int_id+2)%13
+        h2 = (int_id*int_id)%13
+        h3 = (int(math.exp(int_id)))%13
+        h4 = (int(math.log(int_id,10)))%13
         arr[0][h1] = arr[0][h1]+len(friends)
         arr[1][h2] = arr[1][h2]+len(friends)
-    top1,top2=0,0
-    i1,i2=False,False
+        arr[2][h3] = arr[2][h3]+len(friends)
+        arr[3][h4] = arr[3][h4]+len(friends)
+    top1,top2,top3,top4=0,0,0,0
+    i1,i2,i3,i4=False,False,False,False
     for i in idusername:
-        h1 = (3*int(i)+2)%13
-        h2 = (10*int(i))%13
+        int_ids = int(i)
+        h1 = (3*int_ids+2)%13
+        h2 = (int_ids*int_ids)%13
+        h3 = (int(math.exp(int_ids)))%13
+        h4 = (int(math.log(int_ids,10)))%13        
         x = min(arr[0][h1],arr[1][h2])
+        y = min(arr[2][h3],arr[3][h4])
+        x = min(x,y)
         if(x>top1):
+            top4=top3
+            top3=top2
             top2=top1
             top1=x
+            i4=i3
+            i3=i2
             i2=i1
             i1=i
         elif(x>top2):
+            top4=top3
+            top3=top2
             top2=x
+            i4=i3
+            i3=i2
             i2=i
+        elif(x>top3):
+            top4=top3
+            top3=x
+            i4=i3
+            i3=i
+        elif(x>top4):
+            top4=x
+            i4=i
     if(i1):
         dic.append(Show.objects.get(username=idusername[i1]))
     if(i2):
         dic.append(Show.objects.get(username=idusername[i2]))
+    if(i3):
+        dic.append(Show.objects.get(username=idusername[i3]))
+    if(i4):
+        dic.append(Show.objects.get(username=idusername[i4]))
     return dic
 
 

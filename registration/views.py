@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth import login, authenticate
 from chat.models import UserProfile
 from django.contrib.auth.models import User
+from accounts.models import UploadedImage1,Show,Preference_show
 
 def EditProfile(request):
     username = request.user.username
@@ -27,8 +28,25 @@ def EditProfile(request):
             profile_form.name = name
             profile_form.email = email
             profile_form.save()
-            if(username==givenusername):
-                return redirect('/account/profile')
+            if username!=givenusername:
+                if (UploadedImage1.objects.filter(title=i.username)):
+                    x = UploadedImage1.objects.get(title=username)
+                    y=x
+                    x.delete()
+                    y.title=givenusername
+                    y.save()
+                if (Show.objects.filter(username=username)):
+                    x = Show.objects.get(username=username)
+                    y=x
+                    x.delete()
+                    y.username=givenusername
+                    y.save()
+                if (Preference_show.objects.filter(username=username)):
+                    x = Preference_show.objects.get(username=username)
+                    y=x
+                    x.delete()
+                    y.username=givenusername
+                    y.save()
             return redirect("/")
 
     else:

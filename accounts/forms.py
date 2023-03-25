@@ -14,8 +14,7 @@ class MyForm(forms.ModelForm):
   class Meta:
     model = Show
     fields = ["username", "age","height","Country","City","Distance","education","gender","religion","occuption"]
-    labels = {"Age":"age","height":"Height in feet","Country":"Country","City":"City",
-    "Distance":"Distance","education":"Education","gender":"Gender","religion":"Religion","occuption":"occuption"}
+    labels = {"age":"Age in years","height":"Height in feet"}
 
 class PreferenceForm(forms.ModelForm):
   class Meta:
